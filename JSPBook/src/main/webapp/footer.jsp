@@ -1,0 +1,3 @@
+<footer class="pt-3 mt-4 text-muted border-top text-center">
+	&copy; 2026 BookMarket. All rights reserved.
+</footer>
