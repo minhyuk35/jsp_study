@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="dto.Book" %>
+<%@ page import="dao.BookRepository" %>
 
-<jsp:useBean id="BookDAO" class="dao.BookRepository" scope="session" />
 <html>
 <head>
     <meta charset="UTF-8">
@@ -19,9 +19,9 @@
                 <p class="col-md-8 fs-4">BookList</p>
             </div>
             <%
-            	ArrayList<Book> listOfBooks = BookDAO.getAllBooks();
+            	BookRepository dao = BookRepository.getInstance();
+            	ArrayList<Book> listOfBooks = dao.getAllBooks();
             %>
-            
             <div class="row align-items-md-stretch text-center">
             	<%
             		for (int i=0; i < listOfBooks.size(); i++) {
@@ -34,6 +34,7 @@
             			<br><%= book.getPublisher() %> | <%= book.getReleaseDate() %>
             			<p><%= book.getDescription().substring(0,60) %>...</p>
             			<p><%= book.getUnitPrice() %>원</p>
+            			<p><a href="./book.jsp?id=<%= book.getBookId() %>" class="btn btn-secondary" role="button"> 상세 정보 &raquo;</a>
             		</div>
             </div>
             <%
