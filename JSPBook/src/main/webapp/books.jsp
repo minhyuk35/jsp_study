@@ -29,6 +29,7 @@
             	%>
             	<div class="col-md-4">
             		<div class="h-100 p-5 bg-body-secondary border rounded-3">
+            			<img src="./resources/images/<%= book.getFilename() %>" style="width: 250; height: 350;">
             			<h5><b><%= book.getName() %></b></h5>
             			<p><%= book.getAuthor() %></p>
             			<br><%= book.getPublisher() %> | <%= book.getReleaseDate() %>
@@ -44,5 +45,3 @@
     <%@ include file="footer.jsp" %>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </html>
-
-
