@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HatShop 쇼핑몰 프로젝트 발표</title>
+<style>
+  /* ===== BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #2d6ef7;
+    --accent2: #1a4fc2;
+    --dark: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --sub: #8b949e;
+    --green: #3fb950;
+    --orange: #f78166;
+    --yellow: #d29922;
+    --purple: #a371f7;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+    user-select: none;
+  }
+
+  /* ===== HEADER ===== */
+  #header {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px;
+    background: rgba(13,17,23,0.9);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    transition: opacity 0.3s;
+  }
+
+  #header .logo {
+    font-size: 14px; font-weight: 700; letter-spacing: 2px;
+    color: var(--accent); text-transform: uppercase;
+  }
+
+  #header-actions {
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .btn-hdr {
+    background: rgba(48,54,61,0.7);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-hdr:hover { background: rgba(48,54,61,1); }
+  .btn-hdr svg { flex-shrink: 0; }
+
+  /* fullscreen 진입 시 헤더 숨기기 */
+  body.is-fullscreen #header {
+    opacity: 0;
+    pointer-events: none;
+  }
+  body.is-fullscreen:hover #header {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ===== SLIDES WRAPPER ===== */
+  #slides-wrapper {
+    position: fixed; top: 48px; left: 0; right: 0; bottom: 56px;
+    overflow: hidden;
+  }
+
+  body.is-fullscreen #slides-wrapper {
+    top: 0; bottom: 56px;
+  }
+
+  /* ===== SLIDE ===== */
+  .slide {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 40px 60px;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+  }
+  .slide.active {
+    opacity: 1; transform: translateX(0);
+    pointer-events: auto;
+  }
+  .slide.prev {
+    opacity: 0; transform: translateX(-60px);
+  }
+
+  /* ===== FOOTER ===== */
+  #footer {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 56px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 20px;
+    background: rgba(13,17,23,0.9);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid var(--border);
+    z-index: 100;
+  }
+
+  .nav-arrow {
+    background: rgba(48,54,61,0.7);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    font-size: 16px;
+  }
+  .nav-arrow:hover { background: var(--accent); border-color: var(--accent); }
+  .nav-arrow.disabled { opacity: 0.3; cursor: default; }
+  .nav-arrow.disabled:hover { background: rgba(48,54,61,0.7); border-color: var(--border); }
+
+  #page-info {
+    font-size: 13px; color: var(--sub);
+    min-width: 70px; text-align: center;
+    letter-spacing: 1px;
+  }
+
+  /* ===== SLIDE CONTENT HELPERS ===== */
+  .slide-title {
+    font-size: 42px; font-weight: 800;
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .slide-subtitle {
+    font-size: 18px; color: var(--sub);
+    text-align: center; margin-bottom: 32px;
+  }
+  .accent { color: var(--accent); }
+  .green { color: var(--green); }
+  .orange { color: var(--orange); }
+  .yellow { color: var(--yellow); }
+  .purple { color: var(--purple); }
+
+  .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .badge-blue { background: rgba(45,110,247,0.2); color: var(--accent); border: 1px solid rgba(45,110,247,0.4); }
+  .badge-green { background: rgba(63,185,80,0.2); color: var(--green); border: 1px solid rgba(63,185,80,0.4); }
+  .badge-orange { background: rgba(247,129,102,0.2); color: var(--orange); border: 1px solid rgba(247,129,102,0.4); }
+  .badge-purple { background: rgba(163,113,247,0.2); color: var(--purple); border: 1px solid rgba(163,113,247,0.4); }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: 960px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; width: 100%; max-width: 960px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; width: 100%; max-width: 1100px; }
+
+  .feature-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .feature-item h3 { font-size: 15px; margin-bottom: 8px; }
+  .feature-item p { font-size: 13px; color: var(--sub); line-height: 1.6; }
+
+  .icon-big { font-size: 36px; margin-bottom: 12px; }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 12px; }
+  .tag {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; padding: 4px 10px;
+    font-size: 12px; color: var(--sub);
+  }
+
+  /* table-like list */
+  .db-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13px;
+  }
+  .db-table th { background: rgba(45,110,247,0.15); color: var(--accent); padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  .db-table td { padding: 7px 12px; border-bottom: 1px solid rgba(48,54,61,0.5); color: var(--sub); }
+  .db-table td:first-child { color: var(--text); font-weight: 500; }
+
+  /* arch diagram */
+  .arch-box {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 20px;
+    text-align: center; font-size: 14px; font-weight: 600;
+  }
+  .arch-arrow { font-size: 22px; color: var(--sub); display: flex; align-items: center; justify-content: center; }
+
+  /* bullet list */
+  .bullet-list { list-style: none; width: 100%; max-width: 720px; }
+  .bullet-list li {
+    padding: 10px 16px;
+    border-left: 3px solid var(--accent);
+    margin-bottom: 10px;
+    background: var(--card);
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .bullet-list li span { color: var(--sub); font-size: 13px; display: block; }
+
+  .divider {
+    width: 60px; height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--purple));
+    border-radius: 2px; margin: 16px auto;
+  }
+
+  /* ===== TITLE SLIDE SPECIFIC ===== */
+  #slide-0 { background: radial-gradient(ellipse at 30% 40%, rgba(45,110,247,0.08) 0%, transparent 60%), radial-gradient(ellipse at 70% 60%, rgba(163,113,247,0.06) 0%, transparent 50%), var(--dark); }
+
+  .title-logo {
+    font-size: 80px; font-weight: 900;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--purple) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+  }
+
+  .title-sub-line {
+    display: flex; align-items: center; gap: 12px;
+    justify-content: center; flex-wrap: wrap;
+    margin-top: 24px;
+  }
+  .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--border); }
+
+  /* ===== TOC ===== */
+  .toc-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; width: 100%; max-width: 800px;
+  }
+  .toc-item {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 18px;
+    display: flex; align-items: center; gap: 14px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .toc-item:hover { border-color: var(--accent); }
+  .toc-num { font-size: 22px; font-weight: 800; color: var(--accent); min-width: 28px; }
+
+  /* ===== STACK CARDS ===== */
+  .stack-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .stack-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .stack-card .ico { font-size: 32px; margin-bottom: 10px; }
+  .stack-card h3 { font-size: 15px; margin-bottom: 6px; }
+  .stack-card p { font-size: 12px; color: var(--sub); line-height: 1.5; }
+
+  /* ===== DB TABLE BOXES ===== */
+  .db-box {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px;
+  }
+  .db-box h4 { font-size: 13px; color: var(--accent); font-weight: 700; margin-bottom: 8px; letter-spacing: 1px; }
+  .db-box ul { list-style: none; }
+  .db-box ul li { font-size: 11px; color: var(--sub); padding: 2px 0; display: flex; align-items: center; gap: 6px; }
+  .db-box ul li::before { content: '─'; color: var(--border); }
+  .db-box ul li.pk { color: var(--yellow); font-weight: 600; }
+  .db-box ul li.pk::before { content: '🔑'; }
+  .db-box ul li.fk { color: var(--purple); }
+  .db-box ul li.fk::before { content: '🔗'; }
+
+  /* ===== CODE BLOCK ===== */
+  .code-block {
+    background: #0d1117; border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 20px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 12px; line-height: 1.7;
+    color: #e6edf3;
+    text-align: left;
+    overflow: hidden;
+    max-width: 600px; width: 100%;
+  }
+  .code-block .kw { color: #ff7b72; }
+  .code-block .str { color: #a5d6ff; }
+  .code-block .cmt { color: #8b949e; }
+  .code-block .cls { color: #ffa657; }
+  .code-block .fn { color: #d2a8ff; }
+
+  /* ===== SECURITY ===== */
+  .sec-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px;
+  }
+  .sec-icon { font-size: 28px; flex-shrink: 0; }
+  .sec-content h4 { font-size: 14px; margin-bottom: 4px; }
+  .sec-content p { font-size: 12px; color: var(--sub); line-height: 1.6; }
+
+  /* ===== DEMO SLIDE ===== */
+  .demo-url {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--card); border: 2px solid var(--accent);
+    border-radius: 10px; padding: 14px 24px;
+    font-family: monospace; font-size: 20px; color: var(--accent);
+    margin: 16px 0;
+  }
+
+  .cred-table { font-size: 14px; border-collapse: collapse; }
+  .cred-table th { color: var(--sub); padding: 6px 20px; text-align: left; font-weight: 400; border-bottom: 1px solid var(--border); }
+  .cred-table td { padding: 6px 20px; font-family: monospace; }
+
+  /* ===== PRINT / PDF ===== */
+  @media print {
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    html, body { width: 297mm; height: 210mm; overflow: visible; background: #0d1117 !important; }
+    #header, #footer { display: none !important; }
+    #slides-wrapper { position: static; top: 0; bottom: 0; height: 100%; }
+    .slide {
+      position: relative !important;
+      opacity: 1 !important; transform: none !important;
+      width: 297mm; height: 210mm;
+      page-break-after: always;
+      page-break-inside: avoid;
+      display: flex !important;
+      pointer-events: auto !important;
+    }
+    .slide.prev { opacity: 1 !important; transform: none !important; }
+    @page { size: A4 landscape; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="logo">🎩 HatShop</div>
+  <div id="header-actions">
+    <button class="btn-hdr" id="btn-pdf" title="PDF 저장">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      PDF 저장
+    </button>
+    <button class="btn-hdr" id="btn-fs" title="전체화면">
+      <svg id="fs-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      전체화면
+    </button>
+  </div>
+</header>
+
+<!-- SLIDES WRAPPER -->
+<div id="slides-wrapper">
+
+  <!-- SLIDE 0: TITLE -->
+  <section class="slide active" id="slide-0">
+    <div class="title-logo">HatShop</div>
+    <div class="slide-subtitle" style="font-size:22px; margin-bottom:8px;">모자 전문 쇼핑몰 웹 프로젝트</div>
+    <div class="divider"></div>
+    <div class="title-sub-line" style="margin-top:20px;">
+      <span class="badge badge-blue">JSP / Servlet</span>
+      <span class="badge badge-green">Apache Tomcat 9</span>
+      <span class="badge badge-orange">MySQL 8</span>
+      <span class="badge badge-purple">MVC Pattern</span>
+    </div>
+    <div style="margin-top:40px; color:var(--sub); font-size:14px; text-align:center; line-height:2;">
+      2025 웹 프로그래밍 프로젝트<br>
+    </div>
+  </section>
+
+  <!-- SLIDE 1: 목차 -->
+  <section class="slide" id="slide-1">
+    <div class="slide-title">📋 목차</div>
+    <div class="divider"></div>
+    <div class="toc-grid" style="margin-top:24px;">
+      <div class="toc-item"><span class="toc-num">01</span><div><div>프로젝트 개요</div><div style="font-size:11px;color:var(--sub)">기획 목적 및 배경</div></div></div>
+      <div class="toc-item"><span class="toc-num">02</span><div><div>기술 스택</div><div style="font-size:11px;color:var(--sub)">사용 기술 및 환경</div></div></div>
+      <div class="toc-item"><span class="toc-num">03</span><div><div>시스템 아키텍처</div><div style="font-size:11px;color:var(--sub)">MVC 패턴 설계</div></div></div>
+      <div class="toc-item"><span class="toc-num">04</span><div><div>데이터베이스 설계</div><div style="font-size:11px;color:var(--sub)">6개 테이블 ERD</div></div></div>
+      <div class="toc-item"><span class="toc-num">05</span><div><div>주요 기능 구현</div><div style="font-size:11px;color:var(--sub)">상품 / 회원 / 주문 / 게시판 / 관리자</div></div></div>
+      <div class="toc-item"><span class="toc-num">06</span><div><div>보안 처리</div><div style="font-size:11px;color:var(--sub)">BCrypt · 세션 · 필터</div></div></div>
+      <div class="toc-item"><span class="toc-num">07</span><div><div>시연</div><div style="font-size:11px;color:var(--sub)">localhost:8080/hatshop</div></div></div>
+      <div class="toc-item"><span class="toc-num">08</span><div><div>결론 / Q&amp;A</div><div style="font-size:11px;color:var(--sub)">느낀 점 및 질의응답</div></div></div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: 프로젝트 개요 -->
+  <section class="slide" id="slide-2">
+    <div class="slide-title">🎯 프로젝트 개요</div>
+    <div class="divider"></div>
+    <div class="grid-2" style="margin-top:24px; max-width:900px;">
+      <div class="card">
+        <h3 style="color:var(--accent);margin-bottom:12px;font-size:15px;">📌 기획 목적</h3>
+        <ul class="bullet-list" style="max-width:100%">
+          <li style="margin-bottom:8px; font-size:13px; border-left-color:var(--accent)">JSP/Servlet 기반 실전형 쇼핑몰 구현</li>
+          <li style="margin-bottom:8px; font-size:13px; border-left-color:var(--accent)">MVC 패턴을 적용한 구조적 설계 학습</li>
+          <li style="margin-bottom:8px; font-size:13px; border-left-color:var(--accent)">회원·상품·주문의 전체 쇼핑 플로우 구현</li>
+          <li style="font-size:13px; border-left-color:var(--accent)">관리자 페이지 및 게시판 기능 통합</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--green);margin-bottom:12px;font-size:15px;">📦 프로젝트 정보</h3>
+        <table style="font-size:13px;width:100%;border-collapse:collapse;">
+          <tr><td style="color:var(--sub);padding:5px 0;width:90px;">프로젝트명</td><td style="color:var(--text)">HatShop 쇼핑몰</td></tr>
+          <tr><td style="color:var(--sub);padding:5px 0;">주제</td><td style="color:var(--text)">모자 전문 이커머스</td></tr>
+          <tr><td style="color:var(--sub);padding:5px 0;">서버</td><td style="color:var(--text)">Apache Tomcat 9.0</td></tr>
+          <tr><td style="color:var(--sub);padding:5px 0;">DB</td><td style="color:var(--text)">MySQL 8.0</td></tr>
+          <tr><td style="color:var(--sub);padding:5px 0;">접속 URL</td><td style="color:var(--accent);font-family:monospace;font-size:12px;">localhost:8080/hatshop</td></tr>
+          <tr><td style="color:var(--sub);padding:5px 0;">상품 수</td><td style="color:var(--text)">400개 (카테고리 5종)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <span class="badge badge-blue">볼캡</span>
+      <span class="badge badge-green">버킷햇</span>
+      <span class="badge badge-orange">비니</span>
+      <span class="badge badge-purple">패도라</span>
+      <span class="badge" style="background:rgba(210,153,34,0.2);color:var(--yellow);border:1px solid rgba(210,153,34,0.4)">썬캡</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: 기술 스택 -->
+  <section class="slide" id="slide-3">
+    <div class="slide-title">⚙️ 기술 스택</div>
+    <div class="divider"></div>
+    <div class="grid-3" style="margin-top:24px; max-width:900px;">
+      <div class="stack-card">
+        <div class="ico">☕</div>
+        <h3>Java / JSP / Servlet</h3>
+        <p>JDK 21 · JSP 2.3<br>MVC Controller 역할 수행<br>JSTL 1.2 태그 라이브러리</p>
+      </div>
+      <div class="stack-card">
+        <div class="ico">🐱</div>
+        <h3>Apache Tomcat 9.0</h3>
+        <p>WAS 서버<br>WAR 패키징 배포<br>포트 8080</p>
+      </div>
+      <div class="stack-card">
+        <div class="ico">🗄️</div>
+        <h3>MySQL 8.0</h3>
+        <p>관계형 데이터베이스<br>UTF-8mb4 문자셋<br>InnoDB 엔진</p>
+      </div>
+      <div class="stack-card">
+        <div class="ico">🔐</div>
+        <h3>BCrypt (jBCrypt)</h3>
+        <p>비밀번호 단방향 암호화<br>Work Factor 10<br>Salt 자동 생성</p>
+      </div>
+      <div class="stack-card">
+        <div class="ico">🎨</div>
+        <h3>HTML / CSS / JS</h3>
+        <p>반응형 레이아웃<br>Vanilla JavaScript<br>Fetch API 비동기 처리</p>
+      </div>
+      <div class="stack-card">
+        <div class="ico">🔗</div>
+        <h3>MySQL Connector/J</h3>
+        <p>JDBC 8.3.0<br>db.properties 설정 분리<br>DBConn 유틸 클래스</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: 시스템 아키텍처 -->
+  <section class="slide" id="slide-4">
+    <div class="slide-title">🏗️ 시스템 아키텍처</div>
+    <div class="slide-subtitle">MVC(Model-View-Controller) 패턴</div>
+    <div class="divider"></div>
+    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:20px; max-width:960px;">
+      <div style="text-align:center;">
+        <div class="arch-box" style="border-color:var(--accent);background:rgba(45,110,247,0.08);">
+          🌐 Browser<br><span style="font-size:11px;color:var(--sub)">HTTP Request</span>
+        </div>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div style="text-align:center;">
+        <div class="arch-box" style="border-color:var(--orange);background:rgba(247,129,102,0.08);">
+          🧩 Filter<br><span style="font-size:11px;color:var(--sub)">EncodingFilter<br>SecurityFilter</span>
+        </div>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div style="text-align:center;">
+        <div class="arch-box" style="border-color:var(--yellow);background:rgba(210,153,34,0.08);">
+          🎮 Controller<br><span style="font-size:11px;color:var(--sub)">Servlet<br>(HatList, Cart, Order…)</span>
+        </div>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div class="arch-box" style="font-size:12px; border-color:var(--green);background:rgba(63,185,80,0.08);">
+          📊 Model<br><span style="font-size:11px;color:var(--sub)">DAO / DTO</span>
+        </div>
+        <div class="arch-box" style="font-size:12px; border-color:var(--purple);background:rgba(163,113,247,0.08);">
+          👁️ View<br><span style="font-size:11px;color:var(--sub)">JSP Page</span>
+        </div>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div style="text-align:center;">
+        <div class="arch-box" style="border-color:var(--border);">
+          🗄️ MySQL<br><span style="font-size:11px;color:var(--sub)">hatshop DB</span>
+        </div>
+      </div>
+    </div>
+    <div class="grid-3" style="margin-top:24px; max-width:700px;">
+      <div class="feature-item" style="text-align:center;">
+        <div style="color:var(--orange);font-weight:700;font-size:13px;">Filter</div>
+        <p>UTF-8 인코딩<br>세션 인증 검사</p>
+      </div>
+      <div class="feature-item" style="text-align:center;">
+        <div style="color:var(--yellow);font-weight:700;font-size:13px;">DAO / DTO</div>
+        <p>DB 로직 분리<br>데이터 전달 객체</p>
+      </div>
+      <div class="feature-item" style="text-align:center;">
+        <div style="color:var(--purple);font-weight:700;font-size:13px;">JSP View</div>
+        <p>JSTL 태그 사용<br>동적 HTML 렌더링</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: DB 설계 -->
+  <section class="slide" id="slide-5">
+    <div class="slide-title">🗄️ 데이터베이스 설계</div>
+    <div class="slide-subtitle">6개 테이블 · InnoDB · UTF-8mb4</div>
+    <div class="divider"></div>
+    <div style="display:grid; grid-template-columns: repeat(3,1fr); gap:14px; width:100%; max-width:960px; margin-top:20px;">
+      <div class="db-box">
+        <h4>MEMBER (회원)</h4>
+        <ul>
+          <li class="pk">member_id (PK)</li>
+          <li>member_pw (BCrypt)</li>
+          <li>member_name</li>
+          <li>email (UNIQUE)</li>
+          <li>phone / addr</li>
+          <li>grade (NORMAL/ADMIN)</li>
+        </ul>
+      </div>
+      <div class="db-box">
+        <h4>HAT (상품)</h4>
+        <ul>
+          <li class="pk">hat_no (PK, AUTO)</li>
+          <li>hat_name / hat_price</li>
+          <li>hat_category</li>
+          <li>hat_stock</li>
+          <li>hat_desc / hat_image</li>
+          <li>reg_date</li>
+        </ul>
+      </div>
+      <div class="db-box">
+        <h4>CART (장바구니)</h4>
+        <ul>
+          <li class="pk">cart_no (PK, AUTO)</li>
+          <li class="fk">member_id (FK)</li>
+          <li class="fk">hat_no (FK)</li>
+          <li>cart_qty</li>
+          <li>add_date</li>
+          <li style="color:var(--yellow);font-size:10px;">UNIQUE(member_id, hat_no)</li>
+        </ul>
+      </div>
+      <div class="db-box">
+        <h4>ORDERS (주문)</h4>
+        <ul>
+          <li class="pk">order_no (PK, AUTO)</li>
+          <li class="fk">member_id (FK)</li>
+          <li>order_total</li>
+          <li>order_status</li>
+          <li>recv_name / recv_phone</li>
+          <li>recv_addr</li>
+        </ul>
+      </div>
+      <div class="db-box">
+        <h4>ORDER_DETAIL (주문상세)</h4>
+        <ul>
+          <li class="pk">detail_no (PK, AUTO)</li>
+          <li class="fk">order_no (FK)</li>
+          <li class="fk">hat_no (FK)</li>
+          <li>detail_qty</li>
+          <li>detail_price (주문 시 단가)</li>
+        </ul>
+      </div>
+      <div class="db-box">
+        <h4>BOARD (게시판)</h4>
+        <ul>
+          <li class="pk">board_no (PK, AUTO)</li>
+          <li class="fk">member_id (FK)</li>
+          <li>board_title</li>
+          <li>board_content</li>
+          <li>board_type (NORMAL/NOTICE)</li>
+          <li>board_hit / reg_date</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: 주요 기능 - 상품/회원 -->
+  <section class="slide" id="slide-6">
+    <div class="slide-title">🛍️ 주요 기능 (1/3)</div>
+    <div class="slide-subtitle">상품 관리 &amp; 회원 관리</div>
+    <div class="divider"></div>
+    <div class="grid-2" style="margin-top:20px; max-width:920px;">
+      <div>
+        <h3 style="font-size:15px;color:var(--accent);margin-bottom:12px;">📦 상품 기능</h3>
+        <ul class="bullet-list" style="max-width:100%">
+          <li style="font-size:13px;">상품 목록 조회 &amp; 카테고리 필터링<span>볼캡 / 버킷햇 / 비니 / 패도라 / 썬캡</span></li>
+          <li style="font-size:13px;">페이지네이션 처리<span>한 페이지 N개씩 표시</span></li>
+          <li style="font-size:13px;">상품 상세 페이지<span>이미지, 설명, 재고 표시</span></li>
+          <li style="font-size:13px;">재고 0인 경우 품절 처리<span>품절 상품은 장바구니 불가</span></li>
+          <li style="font-size:13px;">외부 이미지 프록시 서빙<span>ImageProxyServlet</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:15px;color:var(--green);margin-bottom:12px;">👤 회원 기능</h3>
+        <ul class="bullet-list" style="max-width:100%">
+          <li style="font-size:13px;">회원가입 · 로그인 · 로그아웃<span>세션 기반 인증</span></li>
+          <li style="font-size:13px;">아이디 중복 확인 (AJAX)<span>Fetch API 비동기 처리</span></li>
+          <li style="font-size:13px;">마이페이지 정보 수정<span>이름 / 이메일 / 전화 / 주소</span></li>
+          <li style="font-size:13px;">회원 탈퇴<span>CASCADE 삭제 처리</span></li>
+          <li style="font-size:13px;">ADMIN / NORMAL 등급 구분<span>SecurityFilter로 권한 분기</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: 주요 기능 - 장바구니/주문/게시판 -->
+  <section class="slide" id="slide-7">
+    <div class="slide-title">🛒 주요 기능 (2/3)</div>
+    <div class="slide-subtitle">장바구니 &amp; 주문 &amp; 게시판</div>
+    <div class="divider"></div>
+    <div class="grid-3" style="margin-top:20px; max-width:960px;">
+      <div>
+        <h3 style="font-size:14px;color:var(--yellow);margin-bottom:10px;">🛒 장바구니</h3>
+        <ul class="bullet-list" style="max-width:100%">
+          <li style="font-size:12px;">상품 담기 / 수량 변경</li>
+          <li style="font-size:12px;">같은 상품 중복 방지<span style="font-size:11px;">UNIQUE KEY 처리</span></li>
+          <li style="font-size:12px;">선택 삭제 / 전체 삭제</li>
+          <li style="font-size:12px;">합계 금액 자동 계산</li>
+          <li style="font-size:12px;">장바구니에서 주문으로</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:14px;color:var(--orange);margin-bottom:10px;">📝 주문</h3>
+        <ul class="bullet-list" style="max-width:100%" style="max-width:100%">
+          <li style="font-size:12px;">수령인 정보 입력</li>
+          <li style="font-size:12px;">주문 완료 페이지</li>
+          <li style="font-size:12px;">주문 내역 조회<span style="font-size:11px;">PENDING/PAID/SHIPPING/DONE/CANCEL</span></li>
+          <li style="font-size:12px;">주문 상세 보기</li>
+          <li style="font-size:12px;">재고 자동 차감 처리</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:14px;color:var(--purple);margin-bottom:10px;">💬 게시판</h3>
+        <ul class="bullet-list" style="max-width:100%">
+          <li style="font-size:12px;">글 작성 / 수정 / 삭제</li>
+          <li style="font-size:12px;">공지사항 (NOTICE) 구분<span style="font-size:11px;">관리자만 작성 가능</span></li>
+          <li style="font-size:12px;">조회수 집계</li>
+          <li style="font-size:12px;">페이지네이션</li>
+          <li style="font-size:12px;">본인 글만 수정/삭제 가능</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:18px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 18px;font-size:12px;text-align:center;">
+        <span style="color:var(--yellow)">주문 상태 흐름</span><br>
+        <span style="font-family:monospace;font-size:11px;color:var(--sub)">PENDING → PAID → SHIPPING → DONE / CANCEL</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: 주요 기능 - 관리자 -->
+  <section class="slide" id="slide-8">
+    <div class="slide-title">👑 주요 기능 (3/3)</div>
+    <div class="slide-subtitle">관리자 페이지</div>
+    <div class="divider"></div>
+    <div class="grid-4" style="margin-top:24px;">
+      <div class="feature-item" style="text-align:center;">
+        <div style="font-size:28px;margin-bottom:10px;">🎩</div>
+        <h3 style="font-size:13px;color:var(--accent)">상품 관리</h3>
+        <p>상품 등록 / 수정 / 삭제<br>이미지 URL 설정<br>재고 수량 관리</p>
+      </div>
+      <div class="feature-item" style="text-align:center;">
+        <div style="font-size:28px;margin-bottom:10px;">👥</div>
+        <h3 style="font-size:13px;color:var(--green)">회원 관리</h3>
+        <p>전체 회원 목록 조회<br>등급 / 가입일 확인<br>회원 정보 열람</p>
+      </div>
+      <div class="feature-item" style="text-align:center;">
+        <div style="font-size:28px;margin-bottom:10px;">📦</div>
+        <h3 style="font-size:13px;color:var(--yellow)">주문 관리</h3>
+        <p>전체 주문 내역 조회<br>주문 상태 변경<br>(AJAX 처리)</p>
+      </div>
+      <div class="feature-item" style="text-align:center;">
+        <div style="font-size:28px;margin-bottom:10px;">📊</div>
+        <h3 style="font-size:13px;color:var(--purple)">대시보드</h3>
+        <p>관리자 전용 진입<br>SecurityFilter 권한 체크<br>ADMIN 등급만 접근 가능</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:24px;max-width:600px;width:100%;">
+      <h4 style="font-size:13px;color:var(--sub);margin-bottom:8px;">관리자 접근 경로</h4>
+      <div style="font-family:monospace;font-size:13px;color:var(--accent);">
+        /hatshop/admin/index.jsp
+        &nbsp;·&nbsp;
+        /hatshop/admin/hatList.jsp
+        &nbsp;·&nbsp;
+        /hatshop/admin/memberList.jsp
+        &nbsp;·&nbsp;
+        /hatshop/admin/orderList.jsp
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: 보안 -->
+  <section class="slide" id="slide-9">
+    <div class="slide-title">🔐 보안 처리</div>
+    <div class="divider"></div>
+    <div style="display:flex;flex-direction:column;gap:14px;width:100%;max-width:800px;margin-top:24px;">
+      <div class="sec-item">
+        <div class="sec-icon">🔑</div>
+        <div class="sec-content">
+          <h4>BCrypt 비밀번호 암호화</h4>
+          <p>jBCrypt 0.4 라이브러리 · Work Factor 10 · 매번 다른 Salt 자동 생성<br>
+          원문 복원 불가 단방향 해시 → DB 유출 시에도 비밀번호 안전</p>
+        </div>
+      </div>
+      <div class="sec-item">
+        <div class="sec-icon">🛡️</div>
+        <div class="sec-content">
+          <h4>SecurityFilter — 인증 · 권한 제어</h4>
+          <p>로그인 필요 페이지 (장바구니, 주문, 마이페이지) 비로그인 시 로그인 페이지로 리다이렉트<br>
+          관리자 페이지 (/admin/*) ADMIN 등급이 아닌 경우 403 Forbidden 반환</p>
+        </div>
+      </div>
+      <div class="sec-item">
+        <div class="sec-icon">✏️</div>
+        <div class="sec-content">
+          <h4>XSS / SQL Injection 방지</h4>
+          <p>PreparedStatement 사용으로 SQL Injection 원천 차단<br>
+          HtmlUtils 클래스로 출력 시 HTML 이스케이프 처리 (&lt; &gt; &amp; 등)</p>
+        </div>
+      </div>
+      <div class="sec-item">
+        <div class="sec-icon">🌐</div>
+        <div class="sec-content">
+          <h4>EncodingFilter — 문자 인코딩</h4>
+          <p>모든 요청/응답에 UTF-8 인코딩 강제 적용<br>
+          한글 입력/출력 깨짐 방지 · Content-Type charset 통일</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: 시연 -->
+  <section class="slide" id="slide-10">
+    <div class="slide-title">🚀 라이브 시연</div>
+    <div class="slide-subtitle">실제 구동 중인 서버에 접속해 시연합니다</div>
+    <div class="divider"></div>
+    <div class="demo-url">
+      <span>🌐</span>
+      <span>http://localhost:8080/hatshop</span>
+    </div>
+    <div style="margin-top:24px; max-width:700px; width:100%;">
+      <h3 style="font-size:14px;color:var(--sub);margin-bottom:12px;text-align:center;">테스트 계정</h3>
+      <div class="card" style="overflow:auto;">
+        <table class="cred-table" style="width:100%;">
+          <thead>
+            <tr>
+              <th>역할</th><th>아이디</th><th>비밀번호</th><th>이름</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="color:var(--orange)"><td style="padding:8px 20px;">👑 관리자</td><td>admin</td><td>admin1234</td><td>관리자</td></tr>
+            <tr><td style="padding:8px 20px;">👤 일반</td><td>hong</td><td>user1234</td><td>홍길동</td></tr>
+            <tr><td style="padding:8px 20px;">👤 일반</td><td>kim</td><td>user1234</td><td>김모자</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+      <span class="badge badge-blue">상품 목록 확인</span>
+      <span class="badge badge-green">회원가입 · 로그인</span>
+      <span class="badge badge-orange">장바구니 · 주문</span>
+      <span class="badge badge-purple">관리자 페이지</span>
+      <span class="badge" style="background:rgba(210,153,34,0.2);color:var(--yellow);border:1px solid rgba(210,153,34,0.4)">게시판</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 11: 결론 -->
+  <section class="slide" id="slide-11">
+    <div class="slide-title">✅ 결론 &amp; 느낀 점</div>
+    <div class="divider"></div>
+    <div class="grid-2" style="margin-top:24px; max-width:900px;">
+      <div>
+        <h3 style="font-size:15px;color:var(--green);margin-bottom:14px;">💡 배운 점</h3>
+        <ul class="bullet-list" style="max-width:100%">
+          <li style="font-size:13px;">MVC 패턴의 역할 분리 중요성 체감<span>Controller ↔ DAO ↔ JSP 명확한 책임 분리</span></li>
+          <li style="font-size:13px;">DB 설계가 전체 구조를 결정함<span>FK / UNIQUE / INDEX 설계의 중요성</span></li>
+          <li style="font-size:13px;">보안은 처음부터 설계해야 함<span>BCrypt, PreparedStatement, Filter</span></li>
+          <li style="font-size:13px;">세션과 필터를 통한 권한 관리<span>ADMIN / NORMAL 등급 분기 처리</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:15px;color:var(--accent);margin-bottom:14px;">🔧 개선 가능 사항</h3>
+        <ul class="bullet-list" style="max-width:100%">
+          <li style="font-size:13px;">실제 결제 시스템 연동<span>PG사 API 통합 (포트원 등)</span></li>
+          <li style="font-size:13px;">이미지 파일 직접 업로드<span>현재는 URL 입력 방식</span></li>
+          <li style="font-size:13px;">Spring Boot로 리팩토링<span>의존성 주입, JPA 적용</span></li>
+          <li style="font-size:13px;">검색 기능 추가<span>상품명 키워드 검색</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="margin-top:24px;max-width:700px;text-align:center;">
+      <p style="font-size:14px;color:var(--sub);line-height:1.8;">
+        JSP/Servlet 기반의 풀스택 쇼핑몰을 처음부터 끝까지 직접 구현하면서<br>
+        웹 애플리케이션의 전체 동작 흐름을 깊이 이해하는 계기가 되었습니다.
+      </p>
+    </div>
+  </section>
+
+  <!-- SLIDE 12: Q&A -->
+  <section class="slide" id="slide-12">
+    <div style="text-align:center;">
+      <div style="font-size:72px;margin-bottom:16px;">🎩</div>
+      <div class="title-logo" style="font-size:60px;">Thank You</div>
+      <div class="divider" style="margin:20px auto;"></div>
+      <div class="slide-subtitle" style="font-size:20px;">Q &amp; A</div>
+      <div style="margin-top:32px; color:var(--sub); font-size:14px; line-height:2.2;">
+        🌐 <span style="font-family:monospace;color:var(--accent)">http://localhost:8080/hatshop</span><br>
+        ☕ Java · JSP · Servlet · Tomcat 9 · MySQL 8<br>
+        🔐 BCrypt · SecurityFilter · PreparedStatement
+      </div>
+      <div class="tag-row" style="margin-top:24px;">
+        <span class="tag">MVC Pattern</span>
+        <span class="tag">Session Auth</span>
+        <span class="tag">CRUD</span>
+        <span class="tag">BCrypt</span>
+        <span class="tag">XSS 방지</span>
+        <span class="tag">SQL Injection 방지</span>
+        <span class="tag">JSTL</span>
+        <span class="tag">WAR Deploy</span>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /slides-wrapper -->
+
+<!-- FOOTER -->
+<footer id="footer">
+  <button class="nav-arrow" id="btn-prev">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <div id="page-info">1 / 13</div>
+  <button class="nav-arrow" id="btn-next">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+</footer>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+  let animating = false;
+
+  const pageInfo = document.getElementById('page-info');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+
+  function updateUI() {
+    pageInfo.textContent = (current + 1) + ' / ' + total;
+    btnPrev.classList.toggle('disabled', current === 0);
+    btnNext.classList.toggle('disabled', current === total - 1);
+  }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total || animating) return;
+    if (idx === current) return;
+    animating = true;
+
+    const oldSlide = slides[current];
+    const newSlide = slides[idx];
+    const forward = idx > current;
+
+    // 현재 슬라이드를 나가는 방향으로 이동
+    oldSlide.style.transition = 'none';
+    newSlide.style.transition = 'none';
+
+    // 새 슬라이드 초기 위치 설정 (트랜지션 없이)
+    if (forward) {
+      newSlide.style.transform = 'translateX(60px)';
+    } else {
+      newSlide.style.transform = 'translateX(-60px)';
+    }
+    newSlide.style.opacity = '0';
+    newSlide.classList.remove('active', 'prev');
+
+    // 강제 리플로우
+    newSlide.getBoundingClientRect();
+
+    // 트랜지션 활성화
+    oldSlide.style.transition = '';
+    newSlide.style.transition = '';
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        // 현재 슬라이드 내보내기
+        oldSlide.style.transform = forward ? 'translateX(-60px)' : 'translateX(60px)';
+        oldSlide.style.opacity = '0';
+        // 새 슬라이드 들어오기
+        newSlide.style.transform = 'translateX(0)';
+        newSlide.style.opacity = '1';
+        newSlide.classList.add('active');
+
+        current = idx;
+        updateUI();
+
+        setTimeout(() => {
+          oldSlide.classList.remove('active');
+          // 인라인 스타일 정리
+          oldSlide.style.transform = '';
+          oldSlide.style.opacity = '';
+          newSlide.style.transform = '';
+          newSlide.style.opacity = '';
+          animating = false;
+        }, 420);
+      });
+    });
+  }
+
+  // initial
+  slides[0].classList.add('active');
+  updateUI();
+
+  btnPrev.addEventListener('click', () => goTo(current - 1));
+  btnNext.addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(current - 1);
+  });
+
+  // Fullscreen
+  const btnFs = document.getElementById('btn-fs');
+  const fsIcon = document.getElementById('fs-icon');
+
+  const iconEnter = `<path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>`;
+  const iconExit  = `<path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>`;
+
+  function updateFsButton() {
+    const isFs = !!document.fullscreenElement;
+    document.body.classList.toggle('is-fullscreen', isFs);
+    fsIcon.innerHTML = isFs ? iconExit : iconEnter;
+    btnFs.title = isFs ? '전체화면 종료' : '전체화면';
+    btnFs.childNodes[1].textContent = ' ' + (isFs ? '종료' : '전체화면');
+  }
+
+  btnFs.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  });
+
+  document.addEventListener('fullscreenchange', updateFsButton);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    }
+  });
+
+  // PDF Print
+  document.getElementById('btn-pdf').addEventListener('click', () => {
+    window.print();
+  });
+</script>
+</body>
+</html>

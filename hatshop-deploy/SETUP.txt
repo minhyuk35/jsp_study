@@ -1,0 +1,52 @@
+================================================================
+  HATSHOP 설치 가이드
+================================================================
+
+[ 필수 환경 ]
+  - JDK 17 이상 (권장: JDK 21)
+  - Apache Tomcat 9.x
+  - MySQL 8.x
+
+----------------------------------------------------------------
+  STEP 1 — MySQL DB 초기화
+----------------------------------------------------------------
+MySQL에 root 계정으로 접속 후 아래 순서로 실행하세요.
+
+  1) DB 스키마 생성:
+       mysql -u root -p < sql\hatshop.sql
+
+  2) 샘플 상품 데이터 삽입:
+       mysql -u root -p hatshop < sql\sample_data.sql
+
+  ※ root 비밀번호를 'hatshop1234' 로 설정하거나,
+     WAR 안의 db.properties 를 수정해야 합니다.
+     (수정 방법은 STEP 3 참고)
+
+  ※ 관리자 계정 생성 방법:
+     MySQL 접속 후:
+       INSERT INTO member (member_id, member_pw, member_name, email, grade)
+       VALUES ('admin', '$2a$10$N.8v5eFNMp/xYFpuAADnZusQrLRiyiv4WX2VVlwnCjVuBPizZ5OKG',
+               '관리자', 'admin@hatshop.com', 'ADMIN');
+     (비밀번호: admin1234)
+
+----------------------------------------------------------------
+  STEP 2 — Tomcat 배포
+----------------------------------------------------------------
+  1) Tomcat의 webapps\ 폴더에 hatshop.war 를 복사합니다.
+  2) Tomcat을 시작합니다 (startup.bat).
+  3) 브라우저에서 http://localhost:8080/hatshop 접속.
+
+----------------------------------------------------------------
+  STEP 3 — DB 비밀번호가 다른 경우 (db.properties 수정)
+----------------------------------------------------------------
+  1) hatshop.war 를 ZIP으로 열기 (확장자를 .zip으로 변경하거나
+     7-Zip 등으로 열기)
+  2) WEB-INF\classes\db.properties 파일을 찾아서 편집:
+       db.password=여기에_실제_비밀번호
+  3) 저장 후 .war로 확장자 복원 → Tomcat 배포
+
+----------------------------------------------------------------
+  기본 포트: 8080
+  Context path: /hatshop
+  접속 주소: http://localhost:8080/hatshop
+================================================================

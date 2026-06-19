@@ -1,0 +1,48 @@
+17-Jun-2026 15:41:50.304 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 서버 버전 이름:    Apache Tomcat/9.0.118
+17-Jun-2026 15:41:50.311 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server 빌드 시각:  May 1 2026 19:30:30 UTC
+17-Jun-2026 15:41:50.311 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server 버전 번호:  9.0.118.0
+17-Jun-2026 15:41:50.311 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 운영체제 이름:     Windows 11
+17-Jun-2026 15:41:50.311 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 운영체제 버전:     10.0
+17-Jun-2026 15:41:50.311 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 아키텍처:          amd64
+17-Jun-2026 15:41:50.311 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 자바 홈:           C:\Program Files\Java\jdk-21.0.10
+17-Jun-2026 15:41:50.311 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM 버전:          21.0.10+8-LTS-217
+17-Jun-2026 15:41:50.311 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM 벤더:          Oracle Corporation
+17-Jun-2026 15:41:50.311 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:     C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat
+17-Jun-2026 15:41:50.314 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:     C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat
+17-Jun-2026 15:41:50.330 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  --add-opens=java.base/java.lang=ALL-UNNAMED
+17-Jun-2026 15:41:50.330 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  --add-opens=java.base/java.lang.invoke=ALL-UNNAMED
+17-Jun-2026 15:41:50.330 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+17-Jun-2026 15:41:50.330 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  --add-opens=java.base/java.io=ALL-UNNAMED
+17-Jun-2026 15:41:50.330 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  --add-opens=java.base/java.util=ALL-UNNAMED
+17-Jun-2026 15:41:50.330 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+17-Jun-2026 15:41:50.330 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+17-Jun-2026 15:41:50.330 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Djava.util.logging.config.file=c:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\conf\logging.properties
+17-Jun-2026 15:41:50.330 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+17-Jun-2026 15:41:50.335 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Djdk.tls.ephemeralDHKeySize=2048
+17-Jun-2026 15:41:50.335 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+17-Jun-2026 15:41:50.335 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Dsun.io.useCanonCaches=false
+17-Jun-2026 15:41:50.335 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Dfile.encoding=UTF-8
+17-Jun-2026 15:41:50.335 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Dstdout.encoding=UTF-8
+17-Jun-2026 15:41:50.335 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Dstderr.encoding=UTF-8
+17-Jun-2026 15:41:50.335 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Dsun.stdout.encoding=UTF-8
+17-Jun-2026 15:41:50.335 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Dsun.stderr.encoding=UTF-8
+17-Jun-2026 15:41:50.335 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Dignore.endorsed.dirs=
+17-Jun-2026 15:41:50.335 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Dcatalina.base=c:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat
+17-Jun-2026 15:41:50.335 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Dcatalina.home=c:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat
+17-Jun-2026 15:41:50.337 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Djava.io.tmpdir=c:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\temp
+17-Jun-2026 15:41:50.347 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent 프로덕션 환경들에서 최적의 성능을 제공하는, APR 기반 Apache Tomcat Native 라이브러리가, 다음 java.library.path에서 발견되지 않습니다: [C:\Program Files\Java\jdk-21.0.10\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Microsoft MPI\Bin\;C:\Program Files\maven-mvnd-1.0.3-windows-amd64\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\java8path;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\mingw64\bin;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Bandizip\;C:\MinGW\bin;C:\Python;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\nodejs\;C:\Program Files\Java\jdk-23\bin;C:\Program Files\Docker\Docker\resources\bin;C:\Windows\System32;C:\ffmpeg\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files (x86)\Microsoft SQL Server\170\Tools\Binn\;C:\Program Files\Microsoft SQL Server\170\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\180\Tools\Binn\;C:\Program Files\Microsoft SQL Server\170\DTS\Binn\;C:\Program Files\Git\cmd;C:\Users\gram14\miniconda3;C:\Users\gram14\miniconda3\Library\mingw-w64\bin;C:\Users\gram14\miniconda3\Library\usr\bin;C:\Users\gram14\miniconda3\Library\bin;C:\Users\gram14\miniconda3\Scripts;C:\Python\Scripts\;C:\Python\;C:\Users\gram14\AppData\Local\Microsoft\WindowsApps;C:\Users\gram14\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\ffmpeg;C:\Users\gram14\AppData\Roaming\npm;C:\Users\gram14\AppData\Local\GitHubDesktop\bin;C:\Users\gram14\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin;C:\Program Files\Maven\bin;C:\Users\gram14\tools\maven\bin;C:\Users\gram14\AppData\Local\Programs\Ollama;.]
+17-Jun-2026 15:41:51.030 INFO [main] org.apache.coyote.AbstractProtocol.init 프로토콜 핸들러 ["http-nio-8080"]을(를) 초기화합니다.
+17-Jun-2026 15:41:51.089 INFO [main] org.apache.catalina.startup.Catalina.load [1091] 밀리초 내에 서버가 초기화되었습니다.
+17-Jun-2026 15:41:51.218 INFO [main] org.apache.catalina.core.StandardService.startInternal 서비스 [Catalina]을(를) 시작합니다.
+17-Jun-2026 15:41:51.229 INFO [main] org.apache.catalina.core.StandardEngine.startInternal 서버 엔진을 시작합니다: [Apache Tomcat/9.0.118]
+17-Jun-2026 15:41:51.271 INFO [main] org.apache.catalina.startup.HostConfig.deployWAR 웹 애플리케이션 아카이브 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\webapps\hatshop.war]을(를) 배치합니다.
+17-Jun-2026 15:41:53.150 INFO [main] org.apache.jasper.servlet.TldScanner.scanJars 적어도 하나의 JAR가 TLD들을 찾기 위해 스캔되었으나 아무 것도 찾지 못했습니다. 스캔했으나 TLD가 없는 JAR들의 전체 목록을 보시려면, 로그 레벨을 디버그 레벨로 설정하십시오. 스캔 과정에서 불필요한 JAR들을 건너뛰면, 시스템 시작 시간과 JSP 컴파일 시간을 단축시킬 수 있습니다.
+17-Jun-2026 15:41:53.486 INFO [main] org.apache.catalina.startup.HostConfig.deployWAR 웹 애플리케이션 아카이브 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\webapps\hatshop.war]의 배치가 [2,215] 밀리초에 완료되었습니다.
+17-Jun-2026 15:41:53.486 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory 웹 애플리케이션 디렉토리 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\webapps\host-manager]을(를) 배치합니다.
+17-Jun-2026 15:41:53.585 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory 웹 애플리케이션 디렉토리 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\webapps\host-manager]에 대한 배치가 [90] 밀리초에 완료되었습니다.
+17-Jun-2026 15:41:53.585 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory 웹 애플리케이션 디렉토리 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\webapps\manager]을(를) 배치합니다.
+17-Jun-2026 15:41:53.644 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory 웹 애플리케이션 디렉토리 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\webapps\manager]에 대한 배치가 [59] 밀리초에 완료되었습니다.
+17-Jun-2026 15:41:53.644 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory 웹 애플리케이션 디렉토리 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\webapps\ROOT]을(를) 배치합니다.
+17-Jun-2026 15:41:53.708 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory 웹 애플리케이션 디렉토리 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\webapps\ROOT]에 대한 배치가 [64] 밀리초에 완료되었습니다.
+17-Jun-2026 15:41:53.720 INFO [main] org.apache.coyote.AbstractProtocol.start 프로토콜 핸들러 ["http-nio-8080"]을(를) 시작합니다.
+17-Jun-2026 15:41:53.750 INFO [main] org.apache.catalina.startup.Catalina.start 서버가 [2656] 밀리초 내에 시작되었습니다.

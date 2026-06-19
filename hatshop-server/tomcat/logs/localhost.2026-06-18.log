@@ -1,0 +1,842 @@
+18-Jun-2026 12:47:10.652 SEVERE [http-nio-8080-exec-7] org.apache.catalina.core.StandardWrapperValve.invoke 경로 [/hatshop]의 컨텍스트 내의 서블릿 [jsp]을(를) 위한 Servlet.service() 호출이, 근본 원인(root cause)과 함께, 예외 [org.apache.jasper.JasperException: JSP를 위한 클래스를 컴파일할 수 없습니다.: 
+
+코드 생성된 자바 파일 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\work\Catalina\localhost\hatshop\org\apache\jsp\chat\search_jsp.java]의 [17] 행에서 오류가 발생했습니다.
+Only a type can be imported. org.json.JSONObject resolves to a package
+
+코드 생성된 자바 파일 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\work\Catalina\localhost\hatshop\org\apache\jsp\chat\search_jsp.java]의 [18] 행에서 오류가 발생했습니다.
+Only a type can be imported. org.json.JSONArray resolves to a package
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+Duplicate local variable out
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [11] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+12:         out.write(response.getWriter());
+13:         return;
+14:     }
+
+
+JSP 파일 [/chat/search.jsp]의 [21] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+18:     try {
+19:         HatDAO hatDAO = new HatDAO();
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+
+
+JSP 파일 [/chat/search.jsp]의 [21] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+18:     try {
+19:         HatDAO hatDAO = new HatDAO();
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+
+
+JSP 파일 [/chat/search.jsp]의 [23] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+25:             item.put("price", h.getHatPrice());
+26:             String rawImg = h.getHatImage();
+
+
+JSP 파일 [/chat/search.jsp]의 [23] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+25:             item.put("price", h.getHatPrice());
+26:             String rawImg = h.getHatImage();
+
+
+JSP 파일 [/chat/search.jsp]의 [42] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+39:     } catch (Exception e) {
+40:         Logger.error(this.getClass(), "상품 검색(챗봇) 오류: q=" + q, e);
+41:         response.setStatus(500);
+42:         out.put("items", new JSONArray());
+43:         out.put("error", "검색 중 오류가 발생했습니다.");
+44:         out.write(response.getWriter());
+45:     }
+
+
+Stacktrace:]을(를) 발생시켰습니다.
+	org.apache.jasper.JasperException: JSP를 위한 클래스를 컴파일할 수 없습니다.: 
+
+코드 생성된 자바 파일 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\work\Catalina\localhost\hatshop\org\apache\jsp\chat\search_jsp.java]의 [17] 행에서 오류가 발생했습니다.
+Only a type can be imported. org.json.JSONObject resolves to a package
+
+코드 생성된 자바 파일 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\work\Catalina\localhost\hatshop\org\apache\jsp\chat\search_jsp.java]의 [18] 행에서 오류가 발생했습니다.
+Only a type can be imported. org.json.JSONArray resolves to a package
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+Duplicate local variable out
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [11] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+12:         out.write(response.getWriter());
+13:         return;
+14:     }
+
+
+JSP 파일 [/chat/search.jsp]의 [21] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+18:     try {
+19:         HatDAO hatDAO = new HatDAO();
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+
+
+JSP 파일 [/chat/search.jsp]의 [21] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+18:     try {
+19:         HatDAO hatDAO = new HatDAO();
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+
+
+JSP 파일 [/chat/search.jsp]의 [23] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+25:             item.put("price", h.getHatPrice());
+26:             String rawImg = h.getHatImage();
+
+
+JSP 파일 [/chat/search.jsp]의 [23] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+25:             item.put("price", h.getHatPrice());
+26:             String rawImg = h.getHatImage();
+
+
+JSP 파일 [/chat/search.jsp]의 [42] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+39:     } catch (Exception e) {
+40:         Logger.error(this.getClass(), "상품 검색(챗봇) 오류: q=" + q, e);
+41:         response.setStatus(500);
+42:         out.put("items", new JSONArray());
+43:         out.put("error", "검색 중 오류가 발생했습니다.");
+44:         out.write(response.getWriter());
+45:     }
+
+
+Stacktrace:
+		at org.apache.jasper.compiler.DefaultErrorHandler.javacError(DefaultErrorHandler.java:70)
+		at org.apache.jasper.compiler.ErrorDispatcher.javacError(ErrorDispatcher.java:189)
+		at org.apache.jasper.compiler.JDTCompiler.generateClass(JDTCompiler.java:593)
+		at org.apache.jasper.compiler.Compiler.compile(Compiler.java:366)
+		at org.apache.jasper.compiler.Compiler.compile(Compiler.java:338)
+		at org.apache.jasper.compiler.Compiler.compile(Compiler.java:324)
+		at org.apache.jasper.JspCompilationContext.compile(JspCompilationContext.java:585)
+		at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:371)
+		at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:349)
+		at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:300)
+		at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:197)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.SecurityFilter.doFilter(SecurityFilter.java:81)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.EncodingFilter.doFilter(EncodingFilter.java:13)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.EncodingFilter.doFilter(EncodingFilter.java:13)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:166)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:491)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:764)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1309)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1854)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1583)
+18-Jun-2026 12:47:19.916 SEVERE [http-nio-8080-exec-4] org.apache.catalina.core.StandardWrapperValve.invoke 경로 [/hatshop]의 컨텍스트 내의 서블릿 [jsp]을(를) 위한 Servlet.service() 호출이, 근본 원인(root cause)과 함께, 예외 [org.apache.jasper.JasperException: JSP를 위한 클래스를 컴파일할 수 없습니다.: 
+
+코드 생성된 자바 파일 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\work\Catalina\localhost\hatshop\org\apache\jsp\chat\search_jsp.java]의 [17] 행에서 오류가 발생했습니다.
+Only a type can be imported. org.json.JSONObject resolves to a package
+
+코드 생성된 자바 파일 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\work\Catalina\localhost\hatshop\org\apache\jsp\chat\search_jsp.java]의 [18] 행에서 오류가 발생했습니다.
+Only a type can be imported. org.json.JSONArray resolves to a package
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+Duplicate local variable out
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [11] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+12:         out.write(response.getWriter());
+13:         return;
+14:     }
+
+
+JSP 파일 [/chat/search.jsp]의 [21] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+18:     try {
+19:         HatDAO hatDAO = new HatDAO();
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+
+
+JSP 파일 [/chat/search.jsp]의 [21] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+18:     try {
+19:         HatDAO hatDAO = new HatDAO();
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+
+
+JSP 파일 [/chat/search.jsp]의 [23] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+25:             item.put("price", h.getHatPrice());
+26:             String rawImg = h.getHatImage();
+
+
+JSP 파일 [/chat/search.jsp]의 [23] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+25:             item.put("price", h.getHatPrice());
+26:             String rawImg = h.getHatImage();
+
+
+JSP 파일 [/chat/search.jsp]의 [42] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+39:     } catch (Exception e) {
+40:         Logger.error(this.getClass(), "상품 검색(챗봇) 오류: q=" + q, e);
+41:         response.setStatus(500);
+42:         out.put("items", new JSONArray());
+43:         out.put("error", "검색 중 오류가 발생했습니다.");
+44:         out.write(response.getWriter());
+45:     }
+
+
+Stacktrace:]을(를) 발생시켰습니다.
+	org.apache.jasper.JasperException: JSP를 위한 클래스를 컴파일할 수 없습니다.: 
+
+코드 생성된 자바 파일 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\work\Catalina\localhost\hatshop\org\apache\jsp\chat\search_jsp.java]의 [17] 행에서 오류가 발생했습니다.
+Only a type can be imported. org.json.JSONObject resolves to a package
+
+코드 생성된 자바 파일 [C:\Users\gram14\OneDrive\바탕 화면\Projact\jsp\hatshop-server\tomcat\work\Catalina\localhost\hatshop\org\apache\jsp\chat\search_jsp.java]의 [18] 행에서 오류가 발생했습니다.
+Only a type can be imported. org.json.JSONArray resolves to a package
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+Duplicate local variable out
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [11] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+12:         out.write(response.getWriter());
+13:         return;
+14:     }
+
+
+JSP 파일 [/chat/search.jsp]의 [21] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+18:     try {
+19:         HatDAO hatDAO = new HatDAO();
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+
+
+JSP 파일 [/chat/search.jsp]의 [21] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+18:     try {
+19:         HatDAO hatDAO = new HatDAO();
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+
+
+JSP 파일 [/chat/search.jsp]의 [23] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+25:             item.put("price", h.getHatPrice());
+26:             String rawImg = h.getHatImage();
+
+
+JSP 파일 [/chat/search.jsp]의 [23] 행에서 오류가 발생했습니다.
+JSONObject cannot be resolved to a type
+20:         List<HatDTO> list = hatDAO.getHatList(null, q, 1, 8);
+21:         JSONArray items = new JSONArray();
+22:         for (HatDTO h : list) {
+23:             JSONObject item = new JSONObject();
+24:             item.put("name", h.getHatName());
+25:             item.put("price", h.getHatPrice());
+26:             String rawImg = h.getHatImage();
+
+
+JSP 파일 [/chat/search.jsp]의 [42] 행에서 오류가 발생했습니다.
+JSONArray cannot be resolved to a type
+39:     } catch (Exception e) {
+40:         Logger.error(this.getClass(), "상품 검색(챗봇) 오류: q=" + q, e);
+41:         response.setStatus(500);
+42:         out.put("items", new JSONArray());
+43:         out.put("error", "검색 중 오류가 발생했습니다.");
+44:         out.write(response.getWriter());
+45:     }
+
+
+Stacktrace:
+		at org.apache.jasper.compiler.DefaultErrorHandler.javacError(DefaultErrorHandler.java:70)
+		at org.apache.jasper.compiler.ErrorDispatcher.javacError(ErrorDispatcher.java:189)
+		at org.apache.jasper.compiler.JDTCompiler.generateClass(JDTCompiler.java:593)
+		at org.apache.jasper.compiler.Compiler.compile(Compiler.java:366)
+		at org.apache.jasper.compiler.Compiler.compile(Compiler.java:338)
+		at org.apache.jasper.compiler.Compiler.compile(Compiler.java:324)
+		at org.apache.jasper.JspCompilationContext.compile(JspCompilationContext.java:585)
+		at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:371)
+		at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:349)
+		at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:300)
+		at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:197)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.SecurityFilter.doFilter(SecurityFilter.java:81)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.EncodingFilter.doFilter(EncodingFilter.java:13)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.EncodingFilter.doFilter(EncodingFilter.java:13)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:166)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:491)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:764)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1309)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1854)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1583)
+18-Jun-2026 12:51:28.113 SEVERE [http-nio-8080-exec-1] org.apache.catalina.core.StandardWrapperValve.invoke 경로 [/hatshop]의 컨텍스트 내의 서블릿 [jsp]을(를) 위한 Servlet.service() 호출이, 근본 원인(root cause)과 함께, 예외 [org.apache.jasper.JasperException: JSP를 위한 클래스를 컴파일할 수 없습니다.: 
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+Duplicate local variable out
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [46] 행에서 오류가 발생했습니다.
+The method write(Writer) in the type JSONObject is not applicable for the arguments (char)
+43:         out.put("error", "검색 중 오류가 발생했습니다.");
+44:         out.write(response.getWriter());
+45:     }
+46: %>
+
+
+Stacktrace:]을(를) 발생시켰습니다.
+	org.apache.jasper.JasperException: JSP를 위한 클래스를 컴파일할 수 없습니다.: 
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+Duplicate local variable out
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [46] 행에서 오류가 발생했습니다.
+The method write(Writer) in the type JSONObject is not applicable for the arguments (char)
+43:         out.put("error", "검색 중 오류가 발생했습니다.");
+44:         out.write(response.getWriter());
+45:     }
+46: %>
+
+
+Stacktrace:
+		at org.apache.jasper.compiler.DefaultErrorHandler.javacError(DefaultErrorHandler.java:70)
+		at org.apache.jasper.compiler.ErrorDispatcher.javacError(ErrorDispatcher.java:189)
+		at org.apache.jasper.compiler.JDTCompiler.generateClass(JDTCompiler.java:593)
+		at org.apache.jasper.compiler.Compiler.compile(Compiler.java:366)
+		at org.apache.jasper.compiler.Compiler.compile(Compiler.java:338)
+		at org.apache.jasper.compiler.Compiler.compile(Compiler.java:324)
+		at org.apache.jasper.JspCompilationContext.compile(JspCompilationContext.java:585)
+		at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:371)
+		at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:349)
+		at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:300)
+		at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:197)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.SecurityFilter.doFilter(SecurityFilter.java:81)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.EncodingFilter.doFilter(EncodingFilter.java:13)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.EncodingFilter.doFilter(EncodingFilter.java:13)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:166)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:491)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:764)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1309)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1854)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1583)
+18-Jun-2026 12:51:37.072 SEVERE [http-nio-8080-exec-2] org.apache.catalina.core.StandardWrapperValve.invoke 경로 [/hatshop]의 컨텍스트 내의 서블릿 [jsp]을(를) 위한 Servlet.service() 호출이, 근본 원인(root cause)과 함께, 예외 [org.apache.jasper.JasperException: JSP를 위한 클래스를 컴파일할 수 없습니다.: 
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+Duplicate local variable out
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [46] 행에서 오류가 발생했습니다.
+The method write(Writer) in the type JSONObject is not applicable for the arguments (char)
+43:         out.put("error", "검색 중 오류가 발생했습니다.");
+44:         out.write(response.getWriter());
+45:     }
+46: %>
+
+
+Stacktrace:]을(를) 발생시켰습니다.
+	org.apache.jasper.JasperException: JSP를 위한 클래스를 컴파일할 수 없습니다.: 
+
+JSP 파일 [/chat/search.jsp]의 [8] 행에서 오류가 발생했습니다.
+Duplicate local variable out
+5:     response.setHeader("Cache-Control", "no-store");
+6:     String CTX = request.getContextPath();
+7:     String q = request.getParameter("q");
+8:     JSONObject out = new JSONObject();
+9: 
+10:     if (q == null || q.trim().isEmpty()) {
+11:         out.put("items", new JSONArray());
+
+
+JSP 파일 [/chat/search.jsp]의 [46] 행에서 오류가 발생했습니다.
+The method write(Writer) in the type JSONObject is not applicable for the arguments (char)
+43:         out.put("error", "검색 중 오류가 발생했습니다.");
+44:         out.write(response.getWriter());
+45:     }
+46: %>
+
+
+Stacktrace:
+		at org.apache.jasper.compiler.DefaultErrorHandler.javacError(DefaultErrorHandler.java:70)
+		at org.apache.jasper.compiler.ErrorDispatcher.javacError(ErrorDispatcher.java:189)
+		at org.apache.jasper.compiler.JDTCompiler.generateClass(JDTCompiler.java:593)
+		at org.apache.jasper.compiler.Compiler.compile(Compiler.java:366)
+		at org.apache.jasper.compiler.Compiler.compile(Compiler.java:338)
+		at org.apache.jasper.compiler.Compiler.compile(Compiler.java:324)
+		at org.apache.jasper.JspCompilationContext.compile(JspCompilationContext.java:585)
+		at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:371)
+		at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:349)
+		at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:300)
+		at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:197)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.SecurityFilter.doFilter(SecurityFilter.java:81)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.EncodingFilter.doFilter(EncodingFilter.java:13)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.EncodingFilter.doFilter(EncodingFilter.java:13)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:166)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:491)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:764)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1309)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1854)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1583)
+18-Jun-2026 13:21:30.814 SEVERE [http-nio-8080-exec-4] org.apache.catalina.core.StandardWrapperValve.invoke 경로 [/hatshop]의 컨텍스트 내의 서블릿 [jsp]을(를) 위한 Servlet.service() 호출이, 근본 원인(root cause)과 함께, 예외 [org.apache.jasper.JasperException: JSP를 위한 클래스를 컴파일할 수 없습니다.: 
+
+JSP 파일 [/hat/suggest.jsp]의 [96] 행에서 오류가 발생했습니다.
+Local variable q defined in an enclosing scope must be final or effectively final
+93:                 if (levenshtein(q, token) <= threshold) corrected.add(token);
+94:             }
+95:             /* 거리 짧은 순으로 정렬 */
+96:             corrected.sort((a, b) -> levenshtein(q, a) - levenshtein(q, b));
+97: 
+98:             for (String token : corrected) {
+99:                 if (added.size() >= 8) break;
+
+
+Stacktrace:]을(를) 발생시켰습니다.
+	org.apache.jasper.JasperException: JSP를 위한 클래스를 컴파일할 수 없습니다.: 
+
+JSP 파일 [/hat/suggest.jsp]의 [96] 행에서 오류가 발생했습니다.
+Local variable q defined in an enclosing scope must be final or effectively final
+93:                 if (levenshtein(q, token) <= threshold) corrected.add(token);
+94:             }
+95:             /* 거리 짧은 순으로 정렬 */
+96:             corrected.sort((a, b) -> levenshtein(q, a) - levenshtein(q, b));
+97: 
+98:             for (String token : corrected) {
+99:                 if (added.size() >= 8) break;
+
+
+Stacktrace:
+		at org.apache.jasper.compiler.DefaultErrorHandler.javacError(DefaultErrorHandler.java:70)
+		at org.apache.jasper.compiler.ErrorDispatcher.javacError(ErrorDispatcher.java:189)
+		at org.apache.jasper.compiler.JDTCompiler.generateClass(JDTCompiler.java:593)
+		at org.apache.jasper.compiler.Compiler.compile(Compiler.java:366)
+		at org.apache.jasper.compiler.Compiler.compile(Compiler.java:338)
+		at org.apache.jasper.compiler.Compiler.compile(Compiler.java:324)
+		at org.apache.jasper.JspCompilationContext.compile(JspCompilationContext.java:585)
+		at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:371)
+		at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:349)
+		at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:300)
+		at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:197)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.SecurityFilter.doFilter(SecurityFilter.java:81)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.EncodingFilter.doFilter(EncodingFilter.java:13)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.EncodingFilter.doFilter(EncodingFilter.java:13)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:166)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:491)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:764)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1309)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1854)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1583)
+18-Jun-2026 13:21:30.918 SEVERE [http-nio-8080-exec-10] org.apache.catalina.core.StandardWrapperValve.invoke 경로 [/hatshop]의 컨텍스트 내의 서블릿 [jsp]을(를) 위한 Servlet.service() 호출이, 근본 원인(root cause)과 함께, 예외 [org.apache.jasper.JasperException: java.lang.ClassNotFoundException: org.apache.jsp.hat.suggest_jsp]을(를) 발생시켰습니다.
+	java.lang.ClassNotFoundException: org.apache.jsp.hat.suggest_jsp
+		at java.base/java.net.URLClassLoader.findClass(URLClassLoader.java:445)
+		at org.apache.jasper.servlet.JasperLoader.loadClass(JasperLoader.java:116)
+		at org.apache.jasper.servlet.JasperLoader.loadClass(JasperLoader.java:53)
+		at org.apache.catalina.core.DefaultInstanceManager.newInstance(DefaultInstanceManager.java:150)
+		at org.apache.jasper.servlet.JspServletWrapper.getServlet(JspServletWrapper.java:166)
+		at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:385)
+		at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:349)
+		at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:300)
+		at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:197)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.SecurityFilter.doFilter(SecurityFilter.java:81)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.EncodingFilter.doFilter(EncodingFilter.java:13)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.EncodingFilter.doFilter(EncodingFilter.java:13)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:166)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:491)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:764)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1309)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1854)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1583)
+18-Jun-2026 13:21:30.938 SEVERE [http-nio-8080-exec-1] org.apache.catalina.core.StandardWrapperValve.invoke 경로 [/hatshop]의 컨텍스트 내의 서블릿 [jsp]을(를) 위한 Servlet.service() 호출이, 근본 원인(root cause)과 함께, 예외 [org.apache.jasper.JasperException: java.lang.ClassNotFoundException: org.apache.jsp.hat.suggest_jsp]을(를) 발생시켰습니다.
+	java.lang.ClassNotFoundException: org.apache.jsp.hat.suggest_jsp
+		at java.base/java.net.URLClassLoader.findClass(URLClassLoader.java:445)
+		at org.apache.jasper.servlet.JasperLoader.loadClass(JasperLoader.java:116)
+		at org.apache.jasper.servlet.JasperLoader.loadClass(JasperLoader.java:53)
+		at org.apache.catalina.core.DefaultInstanceManager.newInstance(DefaultInstanceManager.java:150)
+		at org.apache.jasper.servlet.JspServletWrapper.getServlet(JspServletWrapper.java:166)
+		at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:385)
+		at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:349)
+		at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:300)
+		at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:197)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.SecurityFilter.doFilter(SecurityFilter.java:81)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.EncodingFilter.doFilter(EncodingFilter.java:13)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at com.hatshop.filter.EncodingFilter.doFilter(EncodingFilter.java:13)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:166)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:142)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:166)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:491)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:127)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:764)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1309)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1854)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1583)

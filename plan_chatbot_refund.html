@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>구현 계획 — 주문상세 검증 / AI 챗봇 / 상품 바로가기 / 환불 신청</title>
+<style>
+  body{font-family:-apple-system,'Noto Sans KR',sans-serif;max-width:980px;margin:40px auto;padding:0 24px;line-height:1.7;color:#222}
+  h1{font-size:1.8rem;border-bottom:3px solid #111;padding-bottom:12px}
+  h2{font-size:1.3rem;margin-top:48px;background:#111;color:#fff;padding:8px 14px;display:inline-block}
+  h3{font-size:1.05rem;margin-top:28px;color:#111;border-left:4px solid #e5b94e;padding-left:10px}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92rem}
+  th,td{border:1px solid #ddd;padding:8px 12px;text-align:left;vertical-align:top}
+  th{background:#f5f4f0}
+  code{background:#f5f4f0;padding:2px 6px;border-radius:3px;font-size:.88em}
+  pre{background:#1b1b1b;color:#eee;padding:14px 18px;border-radius:6px;overflow-x:auto;font-size:.85rem}
+  .status-done{background:#f0faf4;border:1px solid #7dcf9e;color:#1a6b3a;padding:14px 18px;border-radius:6px}
+  .file-new{color:#1a6fb3;font-weight:700}
+  .file-mod{color:#8a6200;font-weight:700}
+  .note{background:#fffbef;border:1px solid #e8c84a;padding:12px 16px;border-radius:6px;font-size:.9rem}
+  .checklist li{margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<h1>구현 계획서</h1>
+<p>요청 4가지: ① 마이페이지 주문 상세보기 격리 확인/수정 ② Gemini 기반 AI 챗봇(전 페이지 동행) ③ 챗봇 내 상품명 검색→바로가기 ④ 환불 신청 기능. 사용자 지시에 따라 본 문서 작성 후 승인 절차 없이 바로 구현 진행.</p>
+
+<h2>① 주문 상세보기 격리 — 조사 결과</h2>
+<div class="status-done">
+  <b>결론: 버그 없음 (검증 완료).</b><br>
+  <code>OrderServlet.handleDetail()</code> → <code>OrderDAO.getOrderDetail(orderNo, memberId)</code> 디컴파일 확인 결과,
+  주문 헤더(<code>WHERE order_no=? AND member_id=?</code>)와 상세 품목(<code>WHERE d.order_no=?</code>) 모두 orderNo로 정확히 필터링됨.<br><br>
+  <b>실제 테스트:</b> 임시 QA 계정으로 품목이 다른 주문 2건(주문#3: 2개 품목/50,000원, 주문#4: 1개 품목/15,000원)을 생성 후
+  로그인하여 각각 <code>/order/detail?orderNo=3</code>, <code>?orderNo=4</code> 응답을 비교 — 서로의 품목/배송지/금액이 섞이지 않고 정확히 분리되어 표시됨을 확인. 테스트 데이터는 삭제함.
+</div>
+<p><b>다만 발견한 연관 버그:</b> 마이페이지 "주문 내역" 탭의 주문 카드 썸네일이 비어 보임 — <code>OrderDAO.getOrderList()</code>는 품목 개수만 세고 <code>details</code> 리스트를 채우지 않기 때문. → <span class="file-mod">member/mypage.jsp</span>에서 주문별로 <code>getOrderDetail()</code>을 추가 호출해 썸네일을 채우도록 보강 (가벼운 N+1, 마이페이지 특성상 무방).</p>
+
+<h2>② AI 챗봇 (Gemini API, 전 페이지 플로팅 위젯)</h2>
+<h3>구조</h3>
+<table>
+<tr><th>레이어</th><th>역할</th><th>파일</th></tr>
+<tr><td>위젯 UI</td><td>모든 페이지 우하단 플로팅 버튼 + 패널 (header/footer 공용 include이므로 footer.jsp에 1회 삽입 → 전 페이지 자동 적용)</td><td><span class="file-mod">WEB-INF/inc/footer.jsp</span> (include 추가)</td></tr>
+<tr><td>위젯 스크립트</td><td>열기/닫기, FAQ 버튼 렌더링, 모드 분기(FAQ·상품검색·환불·문의), fetch 호출</td><td><span class="file-new">js/chatbot.js</span></td></tr>
+<tr><td>위젯 스타일</td><td>플로팅 버튼/패널 CSS</td><td><span class="file-new">css/chatbot.css</span></td></tr>
+<tr><td>AI 응답 프록시</td><td>서버에서 Gemini REST API 호출 (API 키 비노출), 실패 시 안전한 대체 메시지</td><td><span class="file-new">chat/ask.jsp</span></td></tr>
+<tr><td>상품 검색</td><td>입력한 제품명으로 <code>HatDAO.getHatList(null, q, 1, 8)</code> 검색 → 상품 상세 바로가기 링크 JSON 반환</td><td><span class="file-new">chat/search.jsp</span></td></tr>
+<tr><td>문의 접수</td><td>고객센터 문의 폼 제출 → <code>inquiry</code> 테이블 저장</td><td><span class="file-new">chat/inquiry.jsp</span></td></tr>
+<tr><td>설정</td><td>Gemini API 키/모델명 (db.properties와 동일 패턴)</td><td><span class="file-new">WEB-INF/classes/gemini.properties</span></td></tr>
+</table>
+
+<h3>대화 흐름</h3>
+<ol>
+  <li>버튼 클릭 → 패널 오픈 → 인사말 + <b>자주 묻는 질문 버튼들</b> 노출 (배송 기간 / 교환·환불 방법 / 사이즈 선택 / 회원 혜택 / 결제 수단)</li>
+  <li>FAQ 버튼 클릭 → 그 질문 텍스트를 사용자 메시지로 채팅창에 표시 → <code>/chat/ask.jsp</code>에 전송 → Gemini가 쇼핑몰 맥락의 system prompt와 함께 답변 생성 → 채팅창에 출력</li>
+  <li>"상품 찾기" 버튼 클릭 → 입력창 모드 전환 → 제품명 입력 → <code>/chat/search.jsp?q=...</code> 호출 → 일치 상품 카드(이름/가격/썸네일) + "바로가기" 링크 표시 (AI 호출 없이 즉시 DB 조회, 빠르고 정확)</li>
+  <li>"환불 신청" 버튼 클릭 → 환불 사유 버튼들 노출 (단순 변심 / 상품 불량·하자 / 오배송 / 사이즈·색상 불일치 / 배송 지연 / 기타) → 클릭 시 해당 사유에 맞는 안내 멘트 + "환불 신청 페이지로 이동" 버튼(→ 마이페이지 주문내역에서 주문 선택 후 신청) 제공</li>
+  <li>"고객센터 문의" 버튼 클릭 → 인라인 문의 폼(이름/이메일/제목/내용) 표시 → 제출 시 <code>/chat/inquiry.jsp</code>로 AJAX 전송 → 성공 메시지로 교체</li>
+  <li>자유 텍스트 입력도 항상 가능 (FAQ 버튼 없이 직접 질문) → <code>/chat/ask.jsp</code> 호출</li>
+</ol>
+
+<h3>Gemini 연동 (서버사이드, API 키 보호)</h3>
+<pre>POST https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={API_KEY}
+Body: { "contents": [{ "parts": [{ "text": "<system prompt>\n\n사용자: <message>" }] }] }
+응답: candidates[0].content.parts[0].text</pre>
+<p><code>java.net.http.HttpClient</code>(Java 21 표준 라이브러리) 사용, JSON 생성/파싱은 <code>org.json</code> 라이브러리(<span class="file-new">WEB-INF/lib/json-20240303.jar</span>, 신규 추가)로 안전하게 처리.</p>
+
+<h3>예외 처리</h3>
+<ul class="checklist">
+  <li>API 키 미설정(placeholder 값 그대로) → 호출 전에 감지, "현재 AI 상담이 설정되지 않았습니다. 고객센터 문의를 이용해주세요." 즉시 반환 (외부 호출 자체를 안 함)</li>
+  <li>네트워크 타임아웃/Gemini 5xx/쿼터 초과 → catch 후 "죄송합니다, 지금은 답변하기 어렵습니다. 잠시 후 다시 시도하거나 고객센터로 문의해주세요." + <code>Logger.error</code> 기록</li>
+  <li>빈 메시지 전송 → 서버에서 400 JSON 에러 반환, 클라이언트에서도 사전 차단</li>
+  <li>JSON 파싱 실패(예상과 다른 응답 구조) → try/catch로 감싸 동일한 폴백 메시지</li>
+  <li>모든 출력은 HTML 이스케이프(<code>HtmlUtils.escape</code>) 후 클라이언트에 전달 — XSS 방지</li>
+</ul>
+
+<h2>③ 상품명 → 바로가기 (챗봇 내 기능, 위 ②에 포함)</h2>
+<p>별도 AI 호출 없이 <code>HatDAO.getHatList(category=null, keyword=q, page=1, pageSize=8)</code>를 그대로 재사용. 결과 각 항목은 <code>/hat/detail?hatNo={hatNo}</code> 링크로 연결되어 클릭 시 바로 해당 상품 페이지로 이동.</p>
+
+<h2>④ 환불 신청 기능</h2>
+<h3>DB 테이블 (신규)</h3>
+<pre>CREATE TABLE refund (
+  refund_no INT NOT NULL AUTO_INCREMENT,
+  order_no INT NOT NULL,
+  member_id VARCHAR(20) NOT NULL,
+  reason_code VARCHAR(30) NOT NULL,
+  reason_detail VARCHAR(1000) DEFAULT NULL,
+  refund_status ENUM('REQUESTED','APPROVED','REJECTED','COMPLETED') NOT NULL DEFAULT 'REQUESTED',
+  request_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  processed_date DATETIME DEFAULT NULL,
+  PRIMARY KEY (refund_no),
+  KEY idx_order (order_no), KEY idx_member (member_id),
+  CONSTRAINT refund_fk_order FOREIGN KEY (order_no) REFERENCES orders(order_no),
+  CONSTRAINT refund_fk_member FOREIGN KEY (member_id) REFERENCES member(member_id)
+);
+
+CREATE TABLE inquiry (
+  inquiry_no INT NOT NULL AUTO_INCREMENT,
+  member_id VARCHAR(20) DEFAULT NULL,
+  inquiry_name VARCHAR(50) NOT NULL,
+  inquiry_email VARCHAR(100) NOT NULL,
+  inquiry_title VARCHAR(200) NOT NULL,
+  inquiry_content TEXT NOT NULL,
+  inquiry_status ENUM('OPEN','ANSWERED','CLOSED') NOT NULL DEFAULT 'OPEN',
+  reg_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (inquiry_no)
+);</pre>
+
+<h3>화면 흐름</h3>
+<table>
+<tr><th>위치</th><th>변경</th></tr>
+<tr><td>주문 상세 (<code>WEB-INF/jsp/orderDetail.jsp</code>, <code>order/orderDetail.jsp</code>)</td><td>주문상태가 CANCEL이 아니고 이미 신청된 환불이 없을 때 "환불 신청" 버튼 추가 → <code>/refund/request.jsp?orderNo=N</code></td></tr>
+<tr><td><span class="file-new">refund/request.jsp</span></td><td>본인 주문인지 검증 → 주문 요약 표시 + 사유 버튼(라디오, 단순변심/불량·하자/오배송/사이즈·색상 불일치/배송 지연/기타) + 상세설명 textarea + 신청 버튼</td></tr>
+<tr><td><span class="file-new">refund/requestProc.jsp</span></td><td>본인 확인, 중복 신청 방지, 사유 필수 검증 후 <code>refund</code> 테이블 INSERT → 마이페이지로 flashSuccess("환불 신청이 완료되었습니다. 영업일 기준 3~5일 내로(회사 사정에 따라 변동) 환불 처리됩니다.")와 함께 리다이렉트</td></tr>
+<tr><td><span class="file-mod">member/mypage.jsp</span></td><td>주문 카드마다 환불 신청 여부/상태 배지 표시 (REQUESTED/APPROVED/REJECTED/COMPLETED)</td></tr>
+</table>
+
+<h2>파일 변경 목록</h2>
+<table>
+<tr><th>구분</th><th>파일</th></tr>
+<tr><td>DB</td><td>refund 테이블, inquiry 테이블 신규 생성 (마이그레이션 SQL 실행)</td></tr>
+<tr><td>설정</td><td><span class="file-new">WEB-INF/classes/gemini.properties</span> (신규), <span class="file-new">WEB-INF/lib/json-20240303.jar</span> (신규 의존성)</td></tr>
+<tr><td>챗봇</td><td><span class="file-new">chat/ask.jsp</span>, <span class="file-new">chat/search.jsp</span>, <span class="file-new">chat/inquiry.jsp</span>, <span class="file-new">js/chatbot.js</span>, <span class="file-new">css/chatbot.css</span></td></tr>
+<tr><td>환불</td><td><span class="file-new">refund/request.jsp</span>, <span class="file-new">refund/requestProc.jsp</span></td></tr>
+<tr><td>관리자</td><td><span class="file-new">admin/inquiryList.jsp</span> (문의 내역 확인용)</td></tr>
+<tr><td>수정</td><td><span class="file-mod">WEB-INF/inc/footer.jsp</span> (챗봇 위젯 include), <span class="file-mod">member/mypage.jsp</span> (썸네일 보강 + 환불 배지), <span class="file-mod">WEB-INF/jsp/orderDetail.jsp</span> / <span class="file-mod">order/orderDetail.jsp</span> (환불 신청 버튼)</td></tr>
+</table>
+
+<div class="note">
+  <b>사용자 조치 필요:</b> 챗봇 AI 응답을 실제로 사용하려면 <code>WEB-INF/classes/gemini.properties</code> 파일의 <code>gemini.api.key=</code> 에 본인의 Gemini API 키를 입력해야 합니다. 키가 비어 있어도 상품 검색·환불 사유 버튼·문의 접수 등 나머지 기능은 정상 동작합니다 (AI 자유응답만 비활성 안내).
+</div>
+
+<h2>검증 계획</h2>
+<ul class="checklist">
+  <li>DB 마이그레이션 실행 후 테이블 존재/제약조건 확인</li>
+  <li>각 신규 JSP 컴파일 오류 여부를 Tomcat 요청으로 직접 확인 (JSP는 요청 시 자동 컴파일되므로 500 에러 발생 여부로 1차 검증)</li>
+  <li>환불 신청 전체 흐름을 curl/PowerShell 세션으로 end-to-end 테스트 (로그인 → 주문 상세 → 환불 신청 → 마이페이지 배지 확인)</li>
+  <li>챗봇: 키 미설정 상태에서 안내 메시지 정상 동작 확인, 상품 검색 API 직접 호출 검증, 문의 접수 DB 반영 확인</li>
+  <li>모든 페이지에서 챗봇 위젯이 헤더에 가리지 않고 정상 노출되는지 확인</li>
+</ul>
+
+</body>
+</html>
